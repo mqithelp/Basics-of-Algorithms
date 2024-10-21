@@ -30,8 +30,8 @@ public class MqStringList implements StringList {
         if (item == null) {
             throw new NullPointerException("item is null");
         }
-        if (position > this.size) {
-            throw new IndexOutOfBoundsException();
+        if (position > this.size || index > this.size) {
+            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + this.size);
         }
         if (position == this.size) {
             incraseArray();
