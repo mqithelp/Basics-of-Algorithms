@@ -41,7 +41,6 @@ public class MqStringList implements StringList {
             shiftItemsLeft(index);
             list[index] = item;
         }
-        list[position] = item;
         position++;
         return item;
     }
@@ -110,13 +109,18 @@ public class MqStringList implements StringList {
     public String toString() {
         String result = "";
         int i = 0;
-        while (list[i] != null) {
+        while (isOkArrayLength(i)) {
             result = result + list[i] + " ";
             i++;
         }
         return result;
     }
-
+private boolean isOkArrayLength(int i){
+        if (i < this.size) {
+            if (this.list[i] != null) return true;
+        }
+        return false;
+}
     private void incraseArray() {
         String[] temp = new String[this.size + 16];
         System.arraycopy(list, 0, temp, 0, this.size);
@@ -127,7 +131,7 @@ public class MqStringList implements StringList {
     private void shiftItemsLeft(int index) {
         String[] temp = new String[this.size];
         System.arraycopy(list, 0, temp, 0, this.size);
-        System.arraycopy(list, index, temp, index + 1, this.size - index - 1);
+        System.arraycopy(list, index -1, temp, index, this.size - index);
         temp[index] = null;
         this.list = temp;
     }
