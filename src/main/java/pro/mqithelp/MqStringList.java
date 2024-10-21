@@ -2,7 +2,7 @@ package pro.mqithelp;
 
 public class MqStringList implements StringList {
     private String[] list;
-    private int position = 0;
+    private int position = -1;
     private int size = 0;
 
     public MqStringList(int size) {
@@ -16,23 +16,23 @@ public class MqStringList implements StringList {
         if (item == null) {
             throw new NullPointerException("item is null");
         }
+        position++;
         if (position == this.size) {
             incraseArray();
         }
         list[position] = item;
-        position++;
         return item;
     }
-
 
     @Override
     public String add(int index, String item) {
         if (item == null) {
             throw new NullPointerException("item is null");
         }
-        if (position > this.size || index > this.size) {
+        if (index > position) {
             throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + this.size);
         }
+        position++;
         if (position == this.size) {
             incraseArray();
             shiftItemsLeft(index);
@@ -41,43 +41,70 @@ public class MqStringList implements StringList {
             shiftItemsLeft(index);
             list[index] = item;
         }
-        position++;
         return item;
     }
 
     @Override
     public String set(int index, String item) {
-        return null;
+        if (index > this.size || index < 0) {
+            throw new IndexOutOfBoundsException("Index out: " + index);
+        }
+        if (item == null) {
+            throw new NullPointerException("item is null");
+        }
+        list[index] = item;
+        return item;
     }
 
     @Override
     public String remove(String item) {
-        return null;
+        int findItemIndex;
+        findItemIndex = findItem(item);
+        if (findItemIndex < 0) {
+            throw new IllegalArgumentException("Item not exists: " + item);
+        }
+        removeItem(findItemIndex);
+
+        return item;
     }
 
     @Override
     public String remove(int index) {
-        return null;
+        if (index < 0 || index > position) {
+            throw new IndexOutOfBoundsException("Index of bounds: " + index);
+        }
+        String removeItem = list[index];
+        removeItem(index);
+        return removeItem;
     }
 
     @Override
     public boolean contains(String item) {
-        return false;
+        return findItem(item) > 0;
     }
 
     @Override
     public int indexOf(String item) {
-        return 0;
+        return findItem(item);
     }
 
     @Override
     public int lastIndexOf(String item) {
-        return 0;
+        if (item == null) {
+            throw new NullPointerException("Item is null.");
+        }
+        for (int i = position; i >= 0; i--) {
+            if (list[i].equals(item)) return i;
+        }
+        return -1;
     }
 
     @Override
     public String get(int index) {
-        return null;
+        if (index < 0 || index > position) {
+            throw new IndexOutOfBoundsException("Index of bounds: " + index);
+        }
+        return list[index];
     }
 
     @Override
@@ -87,22 +114,27 @@ public class MqStringList implements StringList {
 
     @Override
     public int size() {
-        return 0;
+        return position;
     }
 
     @Override
     public boolean isEmpty() {
-        return false;
+        return position < 0;
     }
 
     @Override
     public void clear() {
-
+        position = -1;
+        for (int i = 0; i < size; i++) {
+            list[i] = null;
+        }
     }
 
     @Override
     public String[] toArray() {
-        return new String[0];
+        String[] result = new String[position];
+        System.arraycopy(list, 0, result, 0, position);
+        return result;
     }
 
     @Override
@@ -115,12 +147,14 @@ public class MqStringList implements StringList {
         }
         return result;
     }
-private boolean isOkArrayLength(int i){
+
+    private boolean isOkArrayLength(int i) {
         if (i < this.size) {
             if (this.list[i] != null) return true;
         }
         return false;
-}
+    }
+
     private void incraseArray() {
         String[] temp = new String[this.size + 16];
         System.arraycopy(list, 0, temp, 0, this.size);
@@ -129,10 +163,31 @@ private boolean isOkArrayLength(int i){
     }
 
     private void shiftItemsLeft(int index) {
-        String[] temp = new String[this.size];
+        String[] temp = new String[this.size + 1];
         System.arraycopy(list, 0, temp, 0, this.size);
-        System.arraycopy(list, index -1, temp, index, this.size - index);
+        System.arraycopy(list, index, temp, index + 1, this.size - index);
         temp[index] = null;
         this.list = temp;
     }
+
+    private int findItem(String item) {
+        for (int i = 0; i < this.size; i++) {
+            if (list[i] == null) {
+                return -1;
+            }
+            if (list[i].equals(item)) return i;
+        }
+        return -1;
+    }
+
+    private void removeItem(int findItemIndex) {
+        String[] temp = new String[this.size];
+        list[findItemIndex] = null;
+        for (int i = findItemIndex; i < this.size - 1; i++) {
+            list[i] = list[i + 1];
+        }
+        list[position] = null;
+        position--;
+    }
+
 }
