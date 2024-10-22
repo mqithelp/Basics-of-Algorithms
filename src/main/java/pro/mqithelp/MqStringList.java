@@ -33,7 +33,7 @@ public class MqStringList implements StringList {
         }
         if (index > position) {
             throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + this.size);
-        }
+         }
         position++;
         if (position == this.size) {
             incraseArray();
