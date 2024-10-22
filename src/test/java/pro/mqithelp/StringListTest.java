@@ -25,9 +25,7 @@ class StringListTest {
 
     @Test
     void addNullItem() {
-        assertThrows(NullPointerException.class, () -> {
-            stringList.add(null);
-        });
+        assertThrows(NullPointerException.class, () -> stringList.add(null));
     }
 
     @Test
@@ -42,12 +40,9 @@ class StringListTest {
 
     @Test
     void addIndexOutOfRange() {
-        String item = "Second";
         stringList.add("First");
         stringList.add("Second");
-        assertThrows(IndexOutOfBoundsException.class, () -> {
-            stringList.add(-1, "Error");
-        });
+        assertThrows(IndexOutOfBoundsException.class, () -> stringList.add(-1, "Error"));
     }
 
     @Test
@@ -62,7 +57,6 @@ class StringListTest {
 
     @Test
     void removeByItem() {
-        int index = 0;
         String item = "002";
         stringList.add("001");
         stringList.add(item);
@@ -86,9 +80,7 @@ class StringListTest {
 
     @Test
     void removeItemByIndexWithException() {
-        assertThrows(IndexOutOfBoundsException.class, () -> {
-            stringList.remove(-1);
-        });
+        assertThrows(IndexOutOfBoundsException.class, () -> stringList.remove(-1));
     }
 
     @Test
@@ -101,7 +93,6 @@ class StringListTest {
 
     @Test
     void indexOfByItem() {
-        int index = 1;
         stringList.add("001");
         stringList.add("002");
         stringList.add("003");
@@ -111,9 +102,7 @@ class StringListTest {
 
     @Test
     void indexItemNull() {
-        assertThrows(NullPointerException.class, () -> {
-            stringList.indexOf(null);
-        });
+        assertThrows(NullPointerException.class, () -> stringList.indexOf(null));
     }
 
     @Test
@@ -128,9 +117,7 @@ class StringListTest {
 
     @Test
     void lastIndexOfNull() {
-        assertThrows(NullPointerException.class, () -> {
-            stringList.lastIndexOf(null);
-        });
+        assertThrows(NullPointerException.class, () -> stringList.lastIndexOf(null));
     }
 
     @Test
@@ -153,11 +140,9 @@ class StringListTest {
 
     @ParameterizedTest
     @ValueSource(ints = {-1, 100})
-    void getItemByIndexOutofRange(int indexes) {
+    void getItemByIndexOutOfRange(int indexes) {
         stringList.add("000");
-        assertThrows(IndexOutOfBoundsException.class, () -> {
-            stringList.get(indexes);
-        });
+        assertThrows(IndexOutOfBoundsException.class, () -> stringList.get(indexes));
     }
 
     @Test
@@ -180,10 +165,10 @@ class StringListTest {
             stringList.add(Integer.toString(i));
         } while (index > i++);
         int result = stringList.size();
-        assertEquals(index, result);
+        assertEquals(index + 1, result);
         stringList.remove("0");
         result = stringList.size();
-        assertEquals(index-1, result);
+        assertEquals(index, result);
 
     }
 
@@ -194,9 +179,9 @@ class StringListTest {
         stringList.add("003");
         int result = stringList.size();
         assertEquals(3, result);
-//        stringList.remove("002");
-//        result = stringList.size();
-//        assertEquals(2, result);
+        stringList.remove("002");
+        result = stringList.size();
+        assertEquals(2, result);
     }
 
 
@@ -211,7 +196,7 @@ class StringListTest {
     @Test
     void toArray() {
         String[] items;
-        String[] testItems  = {"001", "002", "003"};
+        String[] testItems = {"001", "002", "003"};
         stringList.add("001");
         stringList.add("002");
         stringList.add("003");

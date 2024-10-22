@@ -127,7 +127,7 @@ public class MqStringList implements StringList {
 
     @Override
     public int size() {
-        return position;
+        return position + 1;
     }
 
     @Override
