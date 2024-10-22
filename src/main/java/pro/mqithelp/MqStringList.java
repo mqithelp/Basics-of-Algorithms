@@ -33,7 +33,7 @@ public class MqStringList implements StringList {
         }
         if (index > position) {
             throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + this.size);
-         }
+        }
         position++;
         if (position == this.size) {
             incraseArray();
@@ -82,11 +82,15 @@ public class MqStringList implements StringList {
 
     @Override
     public boolean contains(String item) {
-        return findItem(item) > 0;
+        if (findItem(item) >= 0) return true;
+        return false;
     }
 
     @Override
     public int indexOf(String item) {
+        if (item == null) {
+            throw new NullPointerException("item is null");
+        }
         return findItem(item);
     }
 
@@ -118,7 +122,6 @@ public class MqStringList implements StringList {
         MqStringList that = (MqStringList) otherList;
 
         if (size != that.size) return false;
-        // Probably incorrect - comparing Object[] arrays with Arrays.equals
         return Arrays.equals(list, that.list);
     }
 
@@ -142,8 +145,8 @@ public class MqStringList implements StringList {
 
     @Override
     public String[] toArray() {
-        String[] result = new String[position];
-        System.arraycopy(list, 0, result, 0, position);
+        String[] result = new String[position + 1];
+        System.arraycopy(list, 0, result, 0, position + 1);
         return result;
     }
 
