@@ -5,7 +5,7 @@ import java.util.Arrays;
 public class MqStringList implements StringList {
     private String[] list;
     private int position = -1;
-    private int size = 0;
+    private int size;
 
     public MqStringList(int size) {
         this.size = size;
@@ -37,12 +37,9 @@ public class MqStringList implements StringList {
         position++;
         if (position == this.size) {
             incraseArray();
-            shiftItemsLeft(index);
-            list[index] = item;
-        } else {
-            shiftItemsLeft(index);
-            list[index] = item;
         }
+        shiftItemsLeft(index);
+        list[index] = item;
         return item;
     }
 
@@ -82,8 +79,7 @@ public class MqStringList implements StringList {
 
     @Override
     public boolean contains(String item) {
-        if (findItem(item) >= 0) return true;
-        return false;
+        return findItem(item) >= 0;
     }
 
     @Override
@@ -152,18 +148,18 @@ public class MqStringList implements StringList {
 
     @Override
     public String toString() {
-        String result = "";
+        StringBuilder result = new StringBuilder();
         int i = 0;
         while (isOkArrayLength(i)) {
-            result = result + list[i] + " ";
+            result.append(list[i]).append(" ");
             i++;
         }
-        return result;
+        return result.toString();
     }
 
     private boolean isOkArrayLength(int i) {
         if (i < this.size) {
-            if (this.list[i] != null) return true;
+            return this.list[i] != null;
         }
         return false;
     }
@@ -194,7 +190,6 @@ public class MqStringList implements StringList {
     }
 
     private void removeItem(int findItemIndex) {
-        String[] temp = new String[this.size];
         list[findItemIndex] = null;
         for (int i = findItemIndex; i < this.size - 1; i++) {
             list[i] = list[i + 1];
