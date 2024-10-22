@@ -7,9 +7,16 @@ public class Main {
     public static void main(String[] args) {
         String[] testArrayList;
         StringList qwe = new MqStringList(10);
+        StringList qaz = new MqStringList(10);
+
         qwe.add("1");
+        qaz.add("1");
         qwe.add("2");
+        qaz.add("2");
+        qaz.add("3");
+        System.out.println("Equals-1" + qwe.equals(qaz));
         qwe.add("3");
+        System.out.println("Equals-2" + qwe.equals(qaz));
         qwe.add("4");
         qwe.add("5");
         qwe.add("6");

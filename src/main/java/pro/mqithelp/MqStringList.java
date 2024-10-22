@@ -1,5 +1,7 @@
 package pro.mqithelp;
 
+import java.util.Arrays;
+
 public class MqStringList implements StringList {
     private String[] list;
     private int position = -1;
@@ -109,7 +111,15 @@ public class MqStringList implements StringList {
 
     @Override
     public boolean equals(StringList otherList) {
-        return false;
+        if (this == otherList) return true;
+        if (otherList == null || getClass() != otherList.getClass()) return false;
+        if (this.size() != otherList.size()) return false;
+
+        MqStringList that = (MqStringList) otherList;
+
+        if (size != that.size) return false;
+        // Probably incorrect - comparing Object[] arrays with Arrays.equals
+        return Arrays.equals(list, that.list);
     }
 
     @Override
@@ -190,4 +200,8 @@ public class MqStringList implements StringList {
         position--;
     }
 
+    @Override
+    public int hashCode() {
+        return Arrays.hashCode(list);
+    }
 }
